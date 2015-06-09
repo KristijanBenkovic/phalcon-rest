@@ -46,4 +46,30 @@ $ composer require olivierandriessen/phalcon-rest
 You can use the [skeleton application](https://github.com/olivierandriessen/phalcon-rest-skeleton) as base for your project. But you can use it as an example to set it up yourself too.
 
 ## Documentation ##
+
+### \PhalconRest\Mvc\Controller ###
+
+#### Implementation ####
+````php
+<?php
+
+class ProductController extends \PhalconRest\Mvc\Controller
+{
+
+}
+````
+
+
+#### Methods ####
+##### createItem($item, $callback, $resource_key, $meta = []) #####
+````php
+public function all()
+{
+    $products = Products::all();
+
+    return $this->createCollection($products, new ProductTransformer, 'products');
+}
+````
+
+##### createCollection($collection, $callback, $resource_key, $meta = []) #####
 Documentation per class is on it's way. I recommend you to checkout the Skeleton application to see how each class can be integrated.
