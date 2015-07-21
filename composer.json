@@ -6,12 +6,6 @@
         "php": ">=5.4",
         "ext-phalcon": ">=1.3.2"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/KristijanBenkovic/phalcon-rest"
-        }
-    ],
     "authors": [
         {
             "name": "Olivier Andriessen",
