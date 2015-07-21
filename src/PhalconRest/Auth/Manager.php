@@ -11,7 +11,8 @@ class Manager extends \Phalcon\Mvc\User\Plugin
     protected $user;
     protected $issuer;
     protected $expireTime;
-    protected $accounts;
+    protected $authModel;
+    protected $user;
     protected $token;
     protected $genSalt;
 
@@ -19,9 +20,8 @@ class Manager extends \Phalcon\Mvc\User\Plugin
     {
         $this->issuer = 'Application';
         $this->expireTime = 86400 * 7; // Default one week
-        $this->accounts = [];
         $this->sessionManager = $sessionManager;
-
+        
         return $this;
     }
 
@@ -30,16 +30,9 @@ class Manager extends \Phalcon\Mvc\User\Plugin
         $this->genSalt = $salt;
     }
 
-    public function addAccount($name, \PhalconRest\Auth\Account $account)
+    public function setAccount(\PhalconRest\Auth\Authenticate $model)
     {
-        $this->accounts[$name] = $account;
-
-        return $this;
-    }
-
-    public function getAccounts()
-    {
-        return $this->accounts;
+        $this->authModel = $model;
     }
 
     public function setExpireTime($time)
@@ -95,24 +88,9 @@ class Manager extends \Phalcon\Mvc\User\Plugin
         return !!$this->user;
     }
 
-    public function getAccount($name)
+    public function login($username, $password)
     {
-        if (array_key_exists($name, $this->accounts)) {
-
-            return $this->accounts[$name];
-        }
-
-        return false;
-    }
-
-    public function login($bearer, $username, $password)
-    {
-        if (!$account = $this->getAccount($bearer)) {
-
-            throw new UserException(ErrorCodes::AUTH_INVALIDTYPE);
-        }
-
-        $user = $account->login($username, $password);
+        $user = $this->authModel->login($username, $password);
 
         if (!$user) {
 

@@ -2,7 +2,7 @@
 
 namespace PhalconRest\Auth;
 
-interface Account
+interface Authenticate
 {
 
     public function login($username = null, $password = null);
